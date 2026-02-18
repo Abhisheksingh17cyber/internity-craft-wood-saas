@@ -18,25 +18,30 @@ export default function ProcessSection() {
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
 
-        if (container.current && track.current) {
-            const panels = steps.length;
+        let ctx = gsap.context(() => {
+            if (container.current && track.current) {
+                const panels = steps.length;
 
-            // Note: track width must be explicitly set to (100 * panels)% in CSS
+                // Horizontal scrolling animation
+                gsap.to(track.current, {
+                    xPercent: -100 * (panels - 1),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: container.current,
+                        pin: true,
+                        scrub: 1,
+                        snap: 1 / (panels - 1),
+                        start: "top top",
+                        // Extend scroll duration: width of all panels combined minus one screen
+                        end: () => "+=" + (container.current!.offsetWidth * (panels - 1)),
+                        anticipatePin: 1,
+                        invalidateOnRefresh: true, // Recalculate on resize
+                    }
+                });
+            }
+        }, container); // Scope to container
 
-            gsap.to(track.current, {
-                xPercent: -100 * (panels - 1),
-                ease: "none",
-                scrollTrigger: {
-                    trigger: container.current,
-                    pin: true,
-                    scrub: 1,
-                    snap: 1 / (panels - 1),
-                    // Scroll duration based on number of panels * viewport width
-                    end: () => "+=" + (container.current!.offsetWidth * (panels - 1)),
-                }
-            });
-        }
-
+        return () => ctx.revert(); // Cleanup on unmount
     }, []);
 
     return (

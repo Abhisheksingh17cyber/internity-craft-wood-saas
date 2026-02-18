@@ -15,7 +15,7 @@ const WoodScene = dynamic(() => import('@/components/three/WoodScene'), { ssr: f
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-[#0f0f0f] text-[#EAE7E1] selection:bg-primary/30 flex flex-col">
+    <main className="relative min-h-screen bg-[#0f0f0f] text-[#EAE7E1] selection:bg-primary/30">
       <Navbar />
       <WoodScene />
 
