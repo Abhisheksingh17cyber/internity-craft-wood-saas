@@ -33,7 +33,8 @@ export default function ProcessSection() {
                         snap: 1 / (panels - 1),
                         start: "top top",
                         // Extend scroll duration: width of all panels combined minus one screen
-                        end: () => "+=" + (container.current!.offsetWidth * (panels - 1)),
+                        // Reduced multiplier to 0.6 for snappier effect
+                        end: () => "+=" + (container.current!.offsetWidth * (panels - 1) * 0.6),
                         anticipatePin: 1,
                         invalidateOnRefresh: true, // Recalculate on resize
                     }
